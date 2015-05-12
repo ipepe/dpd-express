@@ -11,7 +11,7 @@ function Express(name, options) {
   // handle all routes
   this.path = '/';
   
-  app.set('views', path.join(path.resolve('.'), options.configPath, 'views'));
+  app.set('views', path.join(path.resolve('.'), 'views'));
 }
 
 Express.events = ['init'];
