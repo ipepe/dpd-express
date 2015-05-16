@@ -11,7 +11,7 @@ function Express(name, options) {
     locales: ['en', 'ru', 'de', 'es', 'fr'],
     defaultLocale: 'en',
     cookie: 'i18nlang',
-    directory: path.join(path.resolve('.') + 'locales')
+    directory: path.join(path.resolve('.'), 'locales')
   });
 
   var app = this.app = express(), exp = this;
