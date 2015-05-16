@@ -7,8 +7,10 @@ path = require('path');
 
 function Express(name, options) {
   Resource.apply(this, arguments);
+  var languague_array = ['pl','en', 'ru', 'de', 'es', 'fr'];
+  process.supported_languages = languague_array;
   i18n.configure({
-    locales: ['en', 'ru', 'de', 'es', 'fr'],
+    locales: languague_array,
     defaultLocale: 'en',
     cookie: 'i18nlang',
     directory: path.join(path.resolve('.'), 'locales'),
