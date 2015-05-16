@@ -14,24 +14,17 @@ function Express(name, options) {
     directory: path.join(path.resolve('.') + 'locales')
   });
 
-  app.configure(function () {
-    // you will need to use cookieParser to expose cookies to req.cookies
-    app.use(express.cookieParser());
-
-    // i18n init parses req for language headers, cookies, etc.
-    app.use(i18n.init);
-
-  });
-
-
   var app = this.app = express(), exp = this;
+
+  app.configure(function () {
+    app.use(express.cookieParser());
+    app.use(i18n.init);
+  });
 
   // handle all routes
   this.path = '/';
 
   app.set('views', path.join(path.resolve('.'), 'views'));
-
-
 
 }
 
