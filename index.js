@@ -1,17 +1,38 @@
-var util = require('util')
-  , Resource = require('deployd/lib/resource')
-  , express = require('express')
-  , path = require('path');
-  
+var util = require('util'),
+Resource = require('deployd/lib/resource'),
+express = require('express'),
+i18n = require('i18n'),
+path = require('path');
+
+
 function Express(name, options) {
   Resource.apply(this, arguments);
-  var app = this.app = express()
-    , exp = this;
-  
+  i18n.configure({
+    locales: ['en', 'ru', 'de', 'es', 'fr'],
+    defaultLocale: 'en',
+    cookie: 'i18ncookie',
+    directory: path.join(path.resolve('.') + 'locales')
+  });
+
+  app.configure(function () {
+    // you will need to use cookieParser to expose cookies to req.cookies
+    app.use(express.cookieParser());
+
+    // i18n init parses req for language headers, cookies, etc.
+    app.use(i18n.init);
+
+  });
+
+
+  var app = this.app = express(), exp = this;
+
   // handle all routes
   this.path = '/';
-  
+
   app.set('views', path.join(path.resolve('.'), 'views'));
+
+
+
 }
 
 Express.events = ['init'];
@@ -26,28 +47,26 @@ Express.prototype.handle = function (ctx, next) {
   if(ctx.res._finished) {
     next();
   }
-}
+};
 
 Express.prototype.load = function (fn) {
   var e = this;
   Resource.prototype.load.call(this, function () {
     if(e.events && e.events.init) {
-      
+
       var domain = {
-          app: e.app
-        , require: function () {
+        app: e.app, require: function () {
           return require.apply(module, arguments);
         }
-      }
-      
+      };
+
       e.events.init.run({}, domain);
-      
+
       e.app.use(function (req, res) {
         res._finished = true;
       });
-    }  
-      
+    }
+
     fn();
   });
-}
-
+};
