@@ -10,7 +10,7 @@ function Express(name, options) {
   i18n.configure({
     locales: ['en', 'ru', 'de', 'es', 'fr'],
     defaultLocale: 'en',
-    cookie: 'i18ncookie',
+    cookie: 'i18nlang',
     directory: path.join(path.resolve('.') + 'locales')
   });
 
