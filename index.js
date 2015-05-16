@@ -12,7 +12,7 @@ function Express(name, options) {
   i18n.configure({
     locales: languague_array,
     defaultLocale: 'en',
-    cookie: 'i18nlang',
+    cookie: 'lang',
     directory: path.join(path.resolve('.'), 'locales'),
     objectNotation: true
   });
@@ -22,6 +22,13 @@ function Express(name, options) {
   app.configure(function () {
     app.use(express.cookieParser());
     app.use(i18n.init);
+    app.use(function (req, res, next) {
+      if( req.headers.cookie.indexOf('lang=') > -1){
+        var cookie = req.headers.cookie;
+        req.setLocale(cookie[cookie.indexOf('lang=')+5]+cookie[cookie.indexOf('lang=')+6]);
+      }
+      next();
+    });
   });
 
   // handle all routes
