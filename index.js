@@ -7,8 +7,7 @@ path = require('path');
 
 function Express(name, options) {
   Resource.apply(this, arguments);
-  var languague_array = ['pl','en', 'ru', 'de', 'es', 'fr'];
-  process.supported_languages = languague_array;
+  var languague_array = process.supported_languages;
   i18n.configure({
     locales: languague_array,
     defaultLocale: 'en',
@@ -23,7 +22,7 @@ function Express(name, options) {
     app.use(express.cookieParser());
     app.use(i18n.init);
     app.use(function (req, res, next) {
-      if( req.headers.cookie && req.headers.cookie.indexOf('lang=') > -1){
+      if( req.headers.cookie && req.headers.cookie.indexOf && req.headers.cookie.indexOf('lang=') > -1){
         var cookie = req.headers.cookie;
         req.setLocale(cookie[cookie.indexOf('lang=')+5]+cookie[cookie.indexOf('lang=')+6]);
       }
